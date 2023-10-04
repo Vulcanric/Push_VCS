@@ -7,7 +7,9 @@ BIN="/bin/"
 CMD="push"
 
 chmod +x $CMD
-echo -e "\033[32mInstalling push...\033[0m\n"
+echo -e "\033[32;4m                  \033[0m\n"
+printf "\033[32mInstalling push...\033[0m\n"
+echo -e "\033[32;4m                  \033[0m\n"
 if [ -e "$BIN$CMD" ]; then
 	echo -e "\033[36mThe 'push' command already exists\nInstaller exitted!\033[0m"
 else
