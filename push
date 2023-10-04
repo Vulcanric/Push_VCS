@@ -61,7 +61,6 @@ echo -e "\033[33mPlease enter your commit message:\033[0m"
 read -r COMMIT_MSG
 
 echo "Pushing..."
-echo -e "$COMMIT_MSG"
 
 if [ "$VERBOSE" == "true" ]; then
 	git commit -m "$COMMIT_MSG"
@@ -71,7 +70,7 @@ else
 	git push > /dev/null 2>&1
 fi
 
-EXITSTAT="echo $?"
+EXITSTAT=$(echo $?)
 
 if [ "$EXITSTAT" -ne 0 ]; then
 	echo -e "\033[31;1m{ Failed to push files: '$*' }\033[0m"
