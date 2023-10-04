@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# the installer program
-set -x
+#####################################################
+# the helper program. Helps to install the command
+#####################################################
+
 BIN="/bin/"
 CMD="push"
 
