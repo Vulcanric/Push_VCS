@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+# This program git adds, git commits and git pushes files and/or directories to GitHub
+
+help="
+ Pushes files and directories to GitHub
+ SYNOPSIS: push [option] [file[s]]
+
+ OPTIONS:
+    -v, --verbose     Displays to stdout, all the git infomations displayed
+                      when pushing files/directories to the remote server.
+
+    -ver, --version   Prints the version and the make year of the command
+
+    -s, --status      Displays the current git status. This option is used 
+                      without passing any files to it
+
+    -h, --help, ?     Displays this help message
+"
+VERSION=1.0
+VERBOSE="false"  # information is not displayed by default unless specified
+EXITSTAT=0  # exit status of a stage, SUCCESS(0) by default
+export IFS=", "
+
+displayVersion()
+{
+	echo -e "Push VCS: $VERSION \nyear 2023"
+	exit 0
+}
+
+if [ $# -lt 1 ]; then
+	echo "$help"
+fi
+
+for arg in "$@"; do
+	if [ -e "$arg" ]; then
+		git add "$arg" > /dev/null 2>&1
+	elif [ "$arg" == "-v" ] || [ "$arg" == "--verbose" ]; then
+		VERBOSE="true"
+	elif [ "$arg" == "-s" ] || [ "$arg" == "--status" ]; then
+		git status
+		exit 0
+	elif [ "$arg" == "-h" ] || [ "$arg" == "--help" ] || [ "$arg" == "?" ]; then
+		echo "$help"
+		exit 0
+	elif [ "$arg" == "-ver" ] || [ "$arg" == "--version" ]; then
+		displayVersion
+	else
+		echo "$help"
+		echo -e "$arg: \033[31;1mfile does not exist or incorrect option[s]\033[0m"
+		exit 1
+	fi
+done
+
+if [ "$1" == "-v" ] || [ "$1" == "--verbose" ] && [ "$#" -eq 1 ]; then
+	echo "$help"
+	echo -e "\033[31;1mNo file[s] specified\033[0m"
+	exit 1
+fi
+
+echo -e "\033[33mPlease enter your commit message:\033[0m"
+read -r COMMIT_MSG
+
+echo "Pushing..."
+echo -e "$COMMIT_MSG"
+
+if [ "$VERBOSE" == "true" ]; then
+	git commit -m "$COMMIT_MSG"
+	git push
+else
+	git commit -m "$COMMIT_MSG" > /dev/null 2>&1
+	git push > /dev/null 2>&1
+fi
+
+EXITSTAT="echo $?"
+
+if [ "$EXITSTAT" -ne 0 ]; then
+	echo -e "\033[31;1m{ Failed to push files: '$*' }\033[0m"
+	exit 1
+else
+	echo -e "\033[33m{ Successfully pushed: '$*' }\033[0m"
+	exit 0
+fi
