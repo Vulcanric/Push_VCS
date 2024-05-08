@@ -4,24 +4,26 @@
 #####################################################
 
 BIN="/bin/"
+BIN2="/usr/bin/"
 CMD="push"
 
-chmod +x $CMD
-echo -e "\033[32;4m                  \033[0m\n"
-printf "\033[32mInstalling push...\033[0m\n"
-echo -e "\033[32;4m                  \033[0m\n"
 if [ -e "$BIN$CMD" ]; then
-	echo -e "\033[36mThe 'push' command already exists\nInstaller exitted!\033[0m"
+	echo -e "\033[36m\nThe 'push' command already exists\nInstaller exitted!\033[0m"
 else
+	echo -e "\033[32;4m                  \033[0m\n"
+	printf "\033[32mInstalling push...\033[0m\n"
+	echo -e "\033[32;4m                  \033[0m\n"
 	echo -e "\033[35;1mProcessing... [1/1]\033[0m"
 	if [ -e "$CMD" ]; then
-		sudo mv "$CMD" "$BIN"
+		chmod +x $CMD
+		sudo cp "$CMD" "$BIN"
+		sudo cp "$CMD" "$BIN2"
 	else
-		echo -e "\033[36mThe 'push' file is not available, did you delete it?\033[0m"
+		echo -e "\033[36mThe 'push' file is not found, did you delete it?\033[0m"
 		exit 1
 	fi
 
-	if [ -e "$BIN$CMD" ]; then
+	if [ -e "$BIN$CMD" ] && [ -e "$BIN2$CMD" ]; then
 		echo -e "\033[35;1mDone... 100%\033[0m"
 	fi
 fi
