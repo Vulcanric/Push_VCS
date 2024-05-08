@@ -21,7 +21,7 @@ when trying to upload projects and source codes to GitHub.
 	- and others...
 * **Note:** It is not meant to replace the `git` VCS, but to enhance it.
 
-## Installation
+## Installation = Read this list of instruction or watch the video below :point_down_2:
 To use this command, follow the following steps
 1. Clone this repo:
 ```
@@ -42,6 +42,8 @@ $ ./installer
 5. Run again, to confirm.
 
 6. Now you can use the `push` command.
+
+[![asciicast](https://asciinema.org/a/0g4T2ay9fI3qr4FozfikQTCVS.svg)](https://asciinema.org/a/0g4T2ay9fI3qr4FozfikQTCVS)
 
 ## How to use
 To use, start by using the help options
