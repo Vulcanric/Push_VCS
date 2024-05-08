@@ -45,37 +45,38 @@ for arg in "$@"; do
 	elif [ "$arg" == "-ver" ] || [ "$arg" == "--version" ]; then
 		displayVersion
 	else
+		echo -e "\n$arg: \033[31;1mfile does not exist or incorrect option[s]\033[0m"
 		echo "$help"
-		echo -e "$arg: \033[31;1mfile does not exist or incorrect option[s]\033[0m"
-		exit 1
+		exit 0
 	fi
 done
 
 if [ "$1" == "-v" ] || [ "$1" == "--verbose" ] && [ "$#" -eq 1 ]; then
+	echo -e "\033[31;1m\nNo file[s] specified!\033[0m"
 	echo "$help"
-	echo -e "\033[31;1mNo file[s] specified\033[0m"
 	exit 1
 fi
 
-echo -e "\033[33mPlease enter your commit message:\033[0m"
-read -r COMMIT_MSG
+if [ "$#" -ge 1 ]; then
+	echo -e "\033[33mPlease enter your commit message:\033[0m"
+	read -r COMMIT_MSG
+	echo "Pushing..."
 
-echo "Pushing..."
+	if [ "$VERBOSE" == "true" ]; then
+		git commit -m "$COMMIT_MSG"
+		git push
+	else
+		git commit -m "$COMMIT_MSG" > /dev/null 2>&1
+		git push > /dev/null 2>&1
+	fi
 
-if [ "$VERBOSE" == "true" ]; then
-	git commit -m "$COMMIT_MSG"
-	git push
-else
-	git commit -m "$COMMIT_MSG" > /dev/null 2>&1
-	git push > /dev/null 2>&1
-fi
+	EXITSTAT=$(echo $?)
 
-EXITSTAT=$(echo $?)
-
-if [ "$EXITSTAT" -ne 0 ]; then
-	echo -e "\033[31;1m{ Failed to push files: '$*' }\033[0m"
-	exit 1
-else
-	echo -e "\033[33m{ Successfully pushed: '$*' }\033[0m"
-	exit 0
+	if [ "$EXITSTAT" -ne 0 ]; then
+		echo -e "\033[31;1m{ Failed to push files: '$*' }\033[0m"
+		exit 1
+	else
+		echo -e "\033[33m{ Successfully pushed: '$*' }\033[0m"
+		exit 0
+	fi
 fi
