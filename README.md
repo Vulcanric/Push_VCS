@@ -21,7 +21,7 @@ when trying to upload projects and source codes to GitHub.
 	- and others...
 * **Note:** It is not meant to replace the `git` VCS, but to enhance it.
 
-## Installation = Read this list of instruction or watch the video below :point_down_2:
+## Installation - Read this list of instruction or watch the video below :point_down:
 To use this command, follow the following steps
 1. Clone this repo:
 ```
